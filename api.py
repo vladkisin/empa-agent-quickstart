@@ -1,9 +1,10 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from datetime import datetime
+
 from agents.graph import create_graph
 
-app = FastAPI(title="Agent Template")
+app = FastAPI(title="OneHabit Agent")
 graph = create_graph()
 
 
@@ -22,11 +23,14 @@ class ChatResponse(BaseModel):
 @app.post("/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
     try:
-        state = {
-            "user_id": req.user_id,
-            "user_message": req.message,
-        }
-        result = graph.invoke(state)
+        result = graph.invoke(
+            {
+                "user_id": req.user_id,
+                "user_message": req.message,
+                "messages": [],
+                "response": "",
+            }
+        )
         return ChatResponse(
             user_id=req.user_id,
             message=req.message,

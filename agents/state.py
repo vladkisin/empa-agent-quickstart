@@ -1,9 +1,16 @@
-from typing import TypedDict
+from typing import TypedDict, Annotated, List, Any
+import operator
 
 
-# TODO: define AgentState fields in step 1.
-# Placeholder for now to allow imports to work
 class AgentState(TypedDict):
-    """Agent state placeholder - to be defined in step 1."""
-    pass
+    """
+    Core LangGraph state for one conversation instance.
+
+    We intentionally do NOT embed the long-term profile here to avoid
+    duplicating it in the checkpointer. Profile is handled via tools and storage.
+    """
+    user_id: str
+    user_message: str
+    messages: Annotated[List[Any], operator.add]
+    response: str
 
