@@ -1,4 +1,7 @@
 from langchain.tools import tool
+import logging
+
+logger = logging.getLogger(__name__)
 
 try:
     from langchain_community.tools import DuckDuckGoSearchRun
@@ -14,7 +17,12 @@ def duckduckgo_search(query: str) -> str:
 
     If DuckDuckGo is not available, returns a stub message.
     """
+    logger.info(f"[TOOL] duckduckgo_search called with query={query}")
     if _ddg is None:
-        return f"(Search unavailable in this environment. Query would be: {query})"
-    return _ddg.run(query)
+        result = f"(Search unavailable in this environment. Query would be: {query})"
+        logger.info(f"[TOOL] duckduckgo_search result: {result}")
+        return result
+    result = _ddg.run(query)
+    logger.info(f"[TOOL] duckduckgo_search result: {result[:200]}...")
+    return result
 

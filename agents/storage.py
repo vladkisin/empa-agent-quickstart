@@ -22,6 +22,8 @@ class HabitStats(BaseModel):
     successes: int = 0
     last_report: Optional[str] = None
 
+class PlanData(BaseModel):
+    description: Optional[str] = None
 
 class UserProfile(BaseModel):
     user_id: str
@@ -29,6 +31,7 @@ class UserProfile(BaseModel):
     updated_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
     habit: HabitData = Field(default_factory=HabitData)
     stats: HabitStats = Field(default_factory=HabitStats)
+    plan: PlanData = Field(default_factory=PlanData)
 
 
 class Storage:
@@ -48,7 +51,10 @@ class Storage:
     def load_profile(self, user_id: str) -> UserProfile:
         path = self._profile_path(user_id)
         if not path.exists():
-            return UserProfile(user_id=user_id)
+            # Create and immediately save a new profile
+            profile = UserProfile(user_id=user_id)
+            self.save_profile(profile)
+            return profile
         raw = path.read_text(encoding="utf-8")
         return UserProfile.model_validate_json(raw)
 
@@ -59,4 +65,5 @@ class Storage:
 
 
 storage = Storage()
+
 

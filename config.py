@@ -16,7 +16,7 @@ LLM_MODEL = os.getenv("LLM_MODEL", "gemini-2.0-flash-lite")
 
 def get_llm(**kwargs):
     """
-    Return a language model instance using Google Gemini.
+    Return a language model instance.
     Swap this out for another provider if needed.
     """
 

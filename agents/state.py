@@ -13,4 +13,3 @@ class AgentState(TypedDict):
     user_message: str
     messages: Annotated[List[Any], operator.add]
     response: str
-

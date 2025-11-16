@@ -4,6 +4,7 @@ from datetime import datetime
 
 from agents.graph import create_graph
 
+
 app = FastAPI(title="OneHabit Agent")
 graph = create_graph()
 
@@ -29,7 +30,8 @@ async def chat(req: ChatRequest):
                 "user_message": req.message,
                 "messages": [],
                 "response": "",
-            }
+            },
+            config={"configurable": {"thread_id": req.user_id}}
         )
         return ChatResponse(
             user_id=req.user_id,
@@ -39,4 +41,3 @@ async def chat(req: ChatRequest):
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
