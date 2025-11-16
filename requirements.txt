@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+langchain
+langchain-google-genai
+langchain-community
+langgraph
+langmem
+pydantic
+python-dotenv
+google-generativeai
+duckduckgo-search
